@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════╗
+  ║  ЗУРГИЙН ЗААВАР — HOW TO ADD YOUR REAL PHOTOS   ║
+  ╠══════════════════════════════════════════════════╣
+  ║  birthday.html файлтай ЯГ ИЖИЛдиректорт         ║
+  ║  дараах нэртэй 4 зургаа хадгалаарай:            ║
+  ║                                                  ║
+  ║   lily.jpg   → Ягаан цэцэгний баглаа            ║
+  ║   hearts.jpg → Ягаан зүрхний фон                ║
+  ║   stars.jpg  → Од, харанхуй тэнгэрийн фон       ║
+  ║   cake.jpg   → Бялуугийн зураг                  ║
+  ║                                                  ║
+  ║  Зураг байхгүй бол CSS урлаг автоматаар         ║
+  ║  ажиллана. Зурагтай бол илүү гоё болно!         ║
+  ╚══════════════════════════════════════════════════╝
+-->
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Алтантуяа — Төрсөн өдрийн мэнд! 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800;900&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;
+  font-family:'Noto Sans',sans-serif;background:#fff0f5}
+
+/* ── Floating hearts ── */
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.fh{position:absolute;animation:riseHeart linear infinite;opacity:0}
+@keyframes riseHeart{
+  0%{transform:translateY(110vh) scale(.6) rotate(0deg);opacity:0}
+  8%{opacity:.4}92%{opacity:.4}
+  100%{transform:translateY(-120px) scale(1.1) rotate(20deg);opacity:0}}
+
+/* ── Music button ── */
+#musicBtn{
+  position:fixed;top:14px;right:14px;z-index:80;
+  background:rgba(255,255,255,.88);border:2px solid #ffaac4;
+  border-radius:50%;width:46px;height:46px;
+  font-size:21px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(230,63,122,.22);
+  backdrop-filter:blur(6px);transition:all .2s}
+#musicBtn:hover{transform:scale(1.1);background:#ffe0ec}
+
+/* ── Pages ── */
+.page{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .65s cubic-bezier(.4,0,.2,1);
+  z-index:1;padding:20px 16px}
+.page.active{opacity:1;pointer-events:all}
+
+/* ── Nav dots ── */
+#dots{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;gap:9px;z-index:60}
+.dot{width:9px;height:9px;border-radius:50%;background:#ffb3cc;
+  cursor:pointer;transition:background .3s,transform .3s;border:none}
+.dot.on{background:#e63f7a;transform:scale(1.4)}
+
+/* ── Shared ── */
+.pg-title{
+  font-size:clamp(1.55rem,3.8vw,2.1rem);font-weight:900;
+  color:#e63f7a;margin-bottom:5px;text-align:center}
+.pg-sub{color:#ff9eb5;font-size:.98rem;font-style:italic;margin-bottom:22px}
+
+.btn{
+  background:linear-gradient(135deg,#ff6b9d,#e63f7a);
+  color:#fff;border:none;padding:14px 38px;
+  border-radius:50px;font-size:1.08rem;font-weight:800;
+  cursor:pointer;font-family:'Noto Sans',sans-serif;
+  box-shadow:0 6px 22px rgba(230,63,122,.45);
+  transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px) scale(1.05);
+  box-shadow:0 12px 28px rgba(230,63,122,.5)}
+.btn:active{transform:scale(.97)}
+
+@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes cakeBob{0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-18px) rotate(4deg)}}
+@keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ════════════ PAGE 1 ════════════ */
+#p1{background:linear-gradient(145deg,#fff0f5,#ffdde9,#ffc8d8)}
+.p1-name{
+  font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;
+  color:#ff4d88;letter-spacing:.5px;
+  text-shadow:0 2px 8px rgba(255,77,136,.2);margin-bottom:4px}
+.p1-hearts{font-size:26px;margin-bottom:14px;
+  animation:hpulse 2s ease-in-out infinite}
+.p1-title{
+  font-size:clamp(1.7rem,4.5vw,2.7rem);font-weight:900;
+  background:linear-gradient(135deg,#e63f7a,#ff6baa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-align:center;line-height:1.15;margin-bottom:6px}
+.p1-sub{color:#ff7aaa;font-size:1.05rem;font-weight:700;margin-bottom:30px}
+.p1-cake{font-size:82px;animation:cakeBob 2s ease-in-out infinite;
+  margin-bottom:12px;filter:drop-shadow(0 8px 18px rgba(230,63,122,.28))}
+
+/* ════════════ PAGE 2 — PRESENTS ════════════ */
+#p2{background:linear-gradient(145deg,#fff5f8,#ffe4ef)}
+.gifts-row{display:flex;gap:22px;align-items:flex-end;
+  justify-content:center;margin-bottom:14px}
+.gw{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.gb{position:relative;width:108px;height:98px;transition:transform .25s}
+.gb.big{width:128px;height:116px;margin-bottom:14px}
+.gb:hover{transform:scale(1.08) translateY(-6px)}
+.gb.pop{animation:gPop .55s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes gPop{0%{transform:scale(1)}35%{transform:scale(1.25) rotate(12deg)}
+  65%{transform:scale(.92) rotate(-6deg)}100%{transform:scale(1) rotate(0)}}
+.g-body{position:absolute;bottom:0;width:100%;height:75%;
+  background:linear-gradient(145deg,#b2e0f0,#96cfe0);
+  border-radius:8px;box-shadow:0 8px 22px rgba(100,185,215,.35);overflow:hidden}
+.g-body::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+  width:18px;height:100%;background:linear-gradient(180deg,#ffaac4,#ff6b9d)}
+.g-lid{position:absolute;top:0;left:-5px;width:calc(100% + 10px);height:26%;
+  background:linear-gradient(145deg,#c4eaf8,#aad8ec);
+  border-radius:7px;box-shadow:0 3px 10px rgba(100,185,215,.3)}
+.g-lid::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+  width:18px;height:100%;background:linear-gradient(180deg,#ffcce0,#ff6b9d);border-radius:3px}
+.g-bow{position:absolute;top:-17px;left:50%;transform:translateX(-50%);
+  font-size:30px;z-index:2;line-height:1}
+.g-label{margin-top:7px;font-size:.8rem;font-weight:700;color:#ff7aaa}
+
+/* ── Gift Reveal Modal ── */
+#reveal{position:fixed;inset:0;z-index:200;
+  display:none;align-items:center;justify-content:center;overflow:hidden}
+#reveal.show{display:flex}
+#revealCanvas{position:absolute;inset:0;width:100%;height:100%}
+#revealBgImg{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:none}
+
+.rcard{
+  background:rgba(255,255,255,.96);border-radius:26px;
+  padding:30px 28px;max-width:380px;width:90%;text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,.25);
+  position:relative;z-index:2;
+  animation:popIn .42s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.45) rotate(-8deg);opacity:0}
+  to{transform:scale(1) rotate(0);opacity:1}}
+
+/* Lily bouquet */
+.flower-row{display:flex;justify-content:center;gap:3px;line-height:1}
+.flower-row.r1{font-size:44px;margin-bottom:-8px}
+.flower-row.r2{font-size:38px;margin-bottom:-6px}
+.flower-row.r3{font-size:30px}
+.bouquet-bow{font-size:34px;margin-top:3px}
+.bouquet-stem{width:54px;height:26px;border-bottom:4px solid #5a8a3a;
+  border-radius:0 0 50% 50%;margin-top:-3px;margin-bottom:10px}
+
+/* Photo display in gift 1 */
+#lilyImg{
+  width:200px;height:200px;object-fit:cover;
+  border-radius:20px;border:3px solid #ffcce0;
+  box-shadow:0 8px 24px rgba(230,63,122,.25);
+  margin-bottom:10px;display:none}
+
+#rEmoji{font-size:60px;display:block;margin-bottom:8px;
+  animation:spinY 1s ease}
+@keyframes spinY{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+#rTitle{font-size:1.4rem;font-weight:900;color:#e63f7a;margin-bottom:8px}
+#rText{color:#888;line-height:1.65;font-size:.93rem;margin-bottom:16px}
+.sparkle-row{font-size:20px;margin-bottom:14px;animation:hpulse 2s ease-in-out infinite}
+.close-btn{
+  background:linear-gradient(135deg,#ff6b9d,#e63f7a);
+  color:#fff;border:none;padding:11px 30px;border-radius:30px;
+  cursor:pointer;font-family:'Noto Sans',sans-serif;
+  font-size:1rem;font-weight:700}
+
+/* ════════════ PAGE 3 — CAKE ════════════ */
+#p3{background:linear-gradient(145deg,#fff8fc,#ffe8f4,#ffd8ee)}
+.cake-img-wrap{
+  margin:4px 0 10px;
+  animation:float3 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 20px rgba(230,63,122,.25))}
+.cake-photo{
+  width:min(200px,44vw);border-radius:50%;
+  border:4px solid #ffc2d8;display:none}
+.cake-svg{width:min(200px,44vw);height:auto}
+.blessings-grid{display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;max-width:480px;width:100%;margin-bottom:12px}
+.bl{
+  background:#fff;border-radius:16px;padding:10px 13px;
+  font-size:.85rem;font-weight:700;color:#e63f7a;
+  box-shadow:0 4px 16px rgba(230,63,122,.18);
+  border:2px solid #ffd6e8;text-align:center;line-height:1.45}
+
+/* ════════════ PAGE 4 — LETTER ════════════ */
+#p4{background:linear-gradient(145deg,#fff5f8,#ffe0ec)}
+.letter-wrap{
+  position:relative;
+  background:repeating-linear-gradient(transparent,transparent 27px,#e4cfa8 27px,#e4cfa8 28px),
+             linear-gradient(180deg,#fefcf0,#fef9e4);
+  border-radius:14px;padding:26px 30px 30px;
+  max-width:560px;width:calc(100% - 20px);
+  box-shadow:0 12px 40px rgba(0,0,0,.14);
+  max-height:54vh;overflow-y:auto}
+.letter-wrap::-webkit-scrollbar{width:5px}
+.letter-wrap::-webkit-scrollbar-thumb{background:#ffb3cc;border-radius:4px}
+.lt{font-family:'Caveat',cursive;font-size:1.1rem;color:#7a5030;line-height:1.95}
+.lsig{font-family:'Caveat',cursive;font-size:1.3rem;font-weight:700;
+  color:#e63f7a;text-align:right;margin-top:12px}
+.l-deco{position:absolute;bottom:-16px;left:10px;font-size:40px;pointer-events:none}
+.l-flowers{position:absolute;top:-10px;right:10px;font-size:17px;pointer-events:none;opacity:.7}
+
+/* ════════════ PAGE 5 — SONG ════════════ */
+#p5{background:linear-gradient(145deg,#fff0f5,#ffe0ec)}
+.qr-frame{
+  background:#fff;border-radius:20px;padding:14px 14px 10px;
+  box-shadow:0 10px 34px rgba(230,63,122,.22);
+  border:3px solid #ffaac4;position:relative;display:inline-block;margin:6px 0}
+.qr-corner{position:absolute;font-size:16px}
+.qr-corner.tl{top:-9px;left:-9px}.qr-corner.tr{top:-9px;right:-9px}
+.qr-corner.bl{bottom:-9px;left:-9px}.qr-corner.br{bottom:-9px;right:-9px}
+.yt-btn{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#ff1a1a,#cc0000);
+  color:#fff;border:none;padding:14px 28px;border-radius:50px;
+  font-size:1rem;font-weight:800;cursor:pointer;
+  font-family:'Noto Sans',sans-serif;
+  box-shadow:0 6px 22px rgba(200,0,0,.4);
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;margin-top:8px}
+.yt-btn:hover{transform:translateY(-3px) scale(1.05);
+  box-shadow:0 12px 28px rgba(200,0,0,.5)}
+.notes-row{font-size:22px;margin:8px 0;animation:hpulse 2s ease-in-out infinite}
+
+/* ── Confetti ── */
+.cf{position:fixed;pointer-events:none;z-index:300;
+  border-radius:2px;animation:cfFall linear forwards}
+@keyframes cfFall{
+  0%{transform:translateY(-60px) rotate(0deg);opacity:1}
+  100%{transform:translateY(110vh) rotate(800deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<div id="hearts"></div>
+<button id="musicBtn" onclick="toggleMusic()" title="Хөгжим тоглуулах">🎵</button>
+
+<!-- ════════════════════════════
+     PAGE 1 — LANDING
+════════════════════════════ -->
+<div class="page active" id="p1">
+  <div class="p1-cake">🎂</div>
+  <div class="p1-hearts">💕 💖 💕</div>
+  <div class="p1-name">✨ Алтантуяа ✨</div>
+  <div class="p1-title">Төрсөн өдрийн<br>мэнд хүргэе!</div>
+  <div class="p1-sub">🌸 Таны онцгой өдөрт зориулав 🌸</div>
+  <button class="btn" onclick="go(2)">Нээх &nbsp;🎁</button>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 2 — PRESENTS
+════════════════════════════ -->
+<div class="page" id="p2">
+  <div class="pg-title">🎁 Алтантуяа, бэлгүүдээ нээ!</div>
+  <div class="pg-sub">Дарж нээнэ үү ✨</div>
+
+  <div class="gifts-row">
+    <div class="gw" onclick="openGift(0)">
+      <div class="gb" id="gb0">
+        <div class="g-bow">🎀</div><div class="g-lid"></div><div class="g-body"></div>
+      </div>
+      <div class="g-label">Бэлэг #1</div>
+    </div>
+    <div class="gw" onclick="openGift(1)">
+      <div class="gb big" id="gb1">
+        <div class="g-bow" style="font-size:36px">🎀</div>
+        <div class="g-lid"></div><div class="g-body"></div>
+      </div>
+      <div class="g-label">Бэлэг #2</div>
+    </div>
+    <div class="gw" onclick="openGift(2)">
+      <div class="gb" id="gb2">
+        <div class="g-bow">🎀</div><div class="g-lid"></div><div class="g-body"></div>
+      </div>
+      <div class="g-label">Бэлэг #3</div>
+    </div>
+  </div>
+
+  <p style="color:#ff9eb5;font-size:.86rem;font-style:italic">3 бэлэг байна — бүгдийг нээ! ✨</p>
+  <button class="btn" onclick="go(3)" style="margin-top:16px;font-size:1rem;padding:12px 32px">
+    Үргэлжлэх →</button>
+</div>
+
+<!-- Gift Reveal Modal -->
+<div id="reveal">
+  <!-- Real photo background (shown when hearts.jpg / stars.jpg found) -->
+  <img id="revealBgImg" alt="">
+  <!-- Canvas fallback background -->
+  <canvas id="revealCanvas"></canvas>
+
+  <div class="rcard" id="rcard">
+    <!-- GIFT 1: Lily bouquet -->
+    <div id="gift0content">
+      <!-- Real lily photo (shown when lily.jpg found) -->
+      <img id="lilyImg" src="lily.jpg" alt="Цэцэгт баглаа"
+           onload="this.style.display='block';document.getElementById('lilyFallback').style.display='none'"
+           onerror="this.style.display='none'">
+      <!-- Fallback emoji bouquet -->
+      <div id="lilyFallback">
+        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:10px">
+          <div class="flower-row r1">🌷&thinsp;🪷&thinsp;🌷</div>
+          <div class="flower-row r2">🌸&thinsp;🌺&thinsp;🌷&thinsp;🌺&thinsp;🌸</div>
+          <div class="flower-row r3">🌸&thinsp;🌷&thinsp;🌸&thinsp;🌷&thinsp;🌸</div>
+          <div class="bouquet-bow">🎀</div>
+          <div class="bouquet-stem"></div>
+        </div>
+      </div>
+      <div style="font-size:1.4rem;font-weight:900;color:#e63f7a;margin-bottom:8px">
+        Хайрын цэцэгт баглаа 🌷</div>
+      <div style="color:#888;line-height:1.65;font-size:.93rem;margin-bottom:16px">
+        Алтантуяа, хавар дэлгэрэх хамгийн гоё ягаан цэцгийн баглааг танд бэлэглэж байна.
+        Таны амьдрал энэ цэцгийн адил мандан дэлгэрч,
+        хайр энэрлийн халимаар хүрээлэгдэж байтугай! 🌺🌷🌸</div>
+    </div>
+
+    <!-- GIFT 2 & 3 -->
+    <div id="gift12content" style="display:none">
+      <span id="rEmoji">⭐</span>
+      <div id="rTitle"></div>
+      <div id="rText"></div>
+    </div>
+
+    <div class="sparkle-row">✨ 💖 ✨</div>
+    <button class="close-btn" onclick="closeGift()">Хаах &nbsp;💕</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 3 — CAKE BLESSINGS
+════════════════════════════ -->
+<div class="page" id="p3">
+  <div class="pg-title" style="margin-bottom:6px">🎂 Алтантуяагийн өдрийн ерөөл</div>
+
+  <div class="cake-img-wrap">
+    <!-- Real cake photo (shown when cake.jpg found) -->
+    <img class="cake-photo" id="cakePhoto" src="cake.jpg" alt="Birthday Cake"
+         onload="this.style.display='block';document.getElementById('cakeSVG').style.display='none'"
+         onerror="this.style.display='none'">
+    <!-- SVG cake fallback -->
+    <svg class="cake-svg" id="cakeSVG" viewBox="0 0 220 195" xmlns="http://www.w3.org/2000/svg">
+      <!-- Gold board -->
+      <ellipse cx="110" cy="188" rx="107" ry="9" fill="#c49040"/>
+      <ellipse cx="110" cy="184" rx="107" ry="9" fill="#e8c060"/>
+      <!-- Back rim -->
+      <ellipse cx="110" cy="92" rx="93" ry="15" fill="#f8aec0"/>
+      <!-- Cylinder sides -->
+      <rect x="17" y="92" width="186" height="90" fill="#f79ab2"/>
+      <!-- Decorative circles on sides -->
+      <clipPath id="sc"><rect x="17" y="92" width="186" height="90"/></clipPath>
+      <g clip-path="url(#sc)">
+        <circle cx="30"  cy="158" r="28" fill="none" stroke="#ffbece" stroke-width="3"/>
+        <circle cx="72"  cy="158" r="28" fill="none" stroke="#ffbece" stroke-width="3"/>
+        <circle cx="114" cy="158" r="28" fill="none" stroke="#ffbece" stroke-width="3"/>
+        <circle cx="156" cy="158" r="28" fill="none" stroke="#ffbece" stroke-width="3"/>
+        <circle cx="198" cy="158" r="28" fill="none" stroke="#ffbece" stroke-width="3"/>
+        <circle cx="9"   cy="118" r="22" fill="none" stroke="#ffb0c4" stroke-width="2" opacity=".5"/>
+        <circle cx="51"  cy="118" r="22" fill="none" stroke="#ffb0c4" stroke-width="2" opacity=".5"/>
+        <circle cx="93"  cy="118" r="22" fill="none" stroke="#ffb0c4" stroke-width="2" opacity=".5"/>
+        <circle cx="135" cy="118" r="22" fill="none" stroke="#ffb0c4" stroke-width="2" opacity=".5"/>
+        <circle cx="177" cy="118" r="22" fill="none" stroke="#ffb0c4" stroke-width="2" opacity=".5"/>
+      </g>
+      <!-- Front bottom edge -->
+      <ellipse cx="110" cy="182" rx="93" ry="11" fill="#e4809a"/>
+      <!-- White piping bumps -->
+      <ellipse cx="24"  cy="180" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="46"  cy="182" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="68"  cy="184" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="90"  cy="185" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="110" cy="185" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="130" cy="185" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="152" cy="184" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="174" cy="182" rx="11" ry="8" fill="#fff5f8"/>
+      <ellipse cx="196" cy="180" rx="11" ry="8" fill="#fff5f8"/>
+      <!-- Top surface -->
+      <ellipse cx="110" cy="92" rx="93" ry="15" fill="#ffccd8"/>
+      <!-- Cream swirls + cherries at 7 positions -->
+      <!-- 0: right -->
+      <ellipse cx="183" cy="92" rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="183" cy="79" r="7" fill="#cc1a2a"/>
+      <circle cx="181" cy="77" r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="183" y1="72" x2="187" y2="63" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 1: bottom-right -->
+      <ellipse cx="147" cy="105" rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="147" cy="92"  r="7" fill="#cc1a2a"/>
+      <circle cx="145" cy="90"  r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="147" y1="85" x2="151" y2="76" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 2: bottom-left -->
+      <ellipse cx="73"  cy="105" rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="73"  cy="92"  r="7" fill="#cc1a2a"/>
+      <circle cx="71"  cy="90"  r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="73"  y1="85" x2="77"  y2="76" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 3: left -->
+      <ellipse cx="37"  cy="92"  rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="37"  cy="79"  r="7" fill="#cc1a2a"/>
+      <circle cx="35"  cy="77"  r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="37"  y1="72" x2="41"  y2="63" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 4: top-left -->
+      <ellipse cx="73"  cy="79"  rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="73"  cy="66"  r="7" fill="#cc1a2a"/>
+      <circle cx="71"  cy="64"  r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="73"  y1="59" x2="77"  y2="50" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 5: top-right -->
+      <ellipse cx="147" cy="79"  rx="13" ry="10" fill="white" opacity=".95"/>
+      <circle cx="147" cy="66"  r="7" fill="#cc1a2a"/>
+      <circle cx="145" cy="64"  r="2.5" fill="#ff5060" opacity=".65"/>
+      <line x1="147" y1="59" x2="151" y2="50" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- center -->
+      <ellipse cx="110" cy="87"  rx="15" ry="11" fill="white" opacity=".95"/>
+      <circle cx="110" cy="73"  r="8" fill="#cc1a2a"/>
+      <circle cx="108" cy="71"  r="3"  fill="#ff5060" opacity=".65"/>
+      <line x1="110" y1="65" x2="114" y2="54" stroke="#3a5c1a" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="blessings-grid">
+    <div class="bl">✨ Алтантуяа, үргэлж эрүүл энх, аз жаргалтай байж</div>
+    <div class="bl">💖 Мөрөөдлүүд тань биелж, хүслүүд гүйцэгдэг болтугай</div>
+    <div class="bl">🌸 Гэр бүлийн дулаан, хайр хамгаалалтай байж</div>
+    <div class="bl">🌟 Урт удаан наслахын өлзийтэй ерөөлийг хүргэе</div>
+  </div>
+
+  <div style="font-size:19px;margin-bottom:10px;animation:hpulse 2s ease-in-out infinite">💗 💕 💖 💗</div>
+  <button class="btn" onclick="go(4)" style="font-size:1rem;padding:12px 32px">Үргэлжлэх →</button>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 4 — LETTER
+════════════════════════════ -->
+<div class="page" id="p4">
+  <div class="pg-title" style="margin-bottom:12px">💌 Зүрхний үгс</div>
+
+  <div class="letter-wrap">
+    <div class="l-flowers">🌸 🌷 🌸</div>
+    <div class="lt">
+      Алтантуяа, төрсөн өдрийн мэнд хүргэе.<br><br>
+      Танд энэ өдрийн хамгийн сайхан ерөөлийг хүргэе. Үр хүүхдүүдийнхээ түшиг тулгуур, гэр бүлийнхээ дулаан нь болж явдаг танд аз жаргал, эрүүл энх, урт удаан наслахын өлзийтэй ерөөлийг өргөн дэвшүүлье.<br><br>
+      Таны хайр халамж, сайхан сэтгэл, амьдралын ухаан олон хүнд үргэлж дулаан мэдрэмж өгдөг гэдэгт итгэлтэй байна. Өнөөдөр таны инээмсэглэл улам гэрэлтэж, хүссэн бүхэн тань биелэх болтугай.<br><br>
+      Төрсөн өдөр бүхэн тань аз жаргал, амжилт, гэр бүлийн инээд хөөрөөр дүүрэн байж, үргэлж баяр баясгалантай байхыг хүсье.
+    </div>
+    <div class="lsig">Хүндэтгэсэн,<br>— Хүслэн 💕</div>
+    <div class="l-deco">🐱</div>
+  </div>
+
+  <button class="btn" onclick="go(5)" style="font-size:1rem;padding:12px 32px;margin-top:24px">
+    Үргэлжлэх →</button>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 5 — SONG
+════════════════════════════ -->
+<div class="page" id="p5">
+  <div class="pg-title">🎵 Алтантуяад зориулсан дуу</div>
+  <div class="pg-sub" style="margin-bottom:8px">Дарж YouTube дээр нээнэ үү!</div>
+
+  <a class="yt-btn" href="https://www.youtube.com/watch?v=1hbndwvpVa4" target="_blank" rel="noopener">
+    <span style="font-size:22px">▶</span>
+    YouTube дээр нээх
+  </a>
+
+  <div class="notes-row" style="margin-top:14px">🎵 🎶 🎵 🎶 🎵</div>
+
+  <p style="color:#bbb;font-size:.8rem;margin-bottom:8px">эсвэл QR скан хийнэ үү 📱</p>
+
+  <div style="position:relative;display:inline-block">
+    <div class="qr-frame">
+      <span class="qr-corner tl">💕</span><span class="qr-corner tr">💕</span>
+      <span class="qr-corner bl">💕</span><span class="qr-corner br">💕</span>
+      <div id="qrcode"></div>
+    </div>
+  </div>
+
+  <button class="btn"
+    onclick="go(1)"
+    style="background:linear-gradient(135deg,#ffb3cc,#ff6b9d);font-size:.9rem;padding:11px 26px;margin-top:14px">
+    🔄 Эхнээс эхлэх
+  </button>
+</div>
+
+<!-- NAV DOTS -->
+<div id="dots">
+  <button class="dot on" onclick="go(1)"></button>
+  <button class="dot"    onclick="go(2)"></button>
+  <button class="dot"    onclick="go(3)"></button>
+  <button class="dot"    onclick="go(4)"></button>
+  <button class="dot"    onclick="go(5)"></button>
+</div>
+
+<script>
+/* ─── Navigation ─── */
+let cur = 1, qrDone = false;
+function go(n){
+  if(n===cur) return;
+  document.getElementById('p'+cur).classList.remove('active');
+  document.getElementById('p'+n).classList.add('active');
+  document.querySelectorAll('#dots .dot').forEach((d,i)=>d.classList.toggle('on',i===n-1));
+  cur = n;
+  if(n===1||n===3) confetti(28);
+  if(n===5&&!qrDone){ makeQR(); qrDone=true; }
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'&&cur<5) go(cur+1);
+  if(e.key==='ArrowLeft'&&cur>1)  go(cur-1);
+});
+
+/* ─── Happy Birthday — Web Audio ─── */
+let audioCtx=null, musicPlaying=false, musicLoop=null;
+const NOTES={G4:392,A4:440,B4:494,C5:523,D5:587,E5:659,F5:698,G5:784,R:0};
+const MELODY=[
+  ['G4',.75],['G4',.25],['A4',1],['G4',1],['C5',1],['B4',2],['R',.5],
+  ['G4',.75],['G4',.25],['A4',1],['G4',1],['D5',1],['C5',2],['R',.5],
+  ['G4',.75],['G4',.25],['G5',1],['E5',1],['C5',1],['B4',1],['A4',2],['R',.5],
+  ['F5',.75],['F5',.25],['E5',1],['C5',1],['D5',1],['C5',2.5],['R',1]
+];
+const BEAT=60/108;
+
+function playMelody(ctx,t,vol=0.27){
+  let totalDur=0;
+  for(const [note,dur] of MELODY){
+    const d=dur*BEAT;
+    if(note!=='R'){
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sine';o.frequency.value=NOTES[note];
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(vol,t+0.04);
+      g.gain.setValueAtTime(vol,t+d*.7);
+      g.gain.linearRampToValueAtTime(0,t+d-0.04);
+      o.start(t);o.stop(t+d);
+      const o2=ctx.createOscillator(),g2=ctx.createGain();
+      o2.connect(g2);g2.connect(ctx.destination);
+      o2.type='triangle';o2.frequency.value=NOTES[note]*2;
+      g2.gain.setValueAtTime(0,t);
+      g2.gain.linearRampToValueAtTime(vol*.18,t+0.04);
+      g2.gain.linearRampToValueAtTime(0,t+d-0.04);
+      o2.start(t);o2.stop(t+d);
+    }
+    t+=d; totalDur+=d;
+  }
+  return totalDur;
+}
+function startMusic(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  musicPlaying=true;
+  document.getElementById('musicBtn').textContent='🔇';
+  let next=audioCtx.currentTime+0.1;
+  function sched(){
+    const dur=playMelody(audioCtx,next);
+    next+=dur;
+    musicLoop=setTimeout(sched,(next-audioCtx.currentTime-.5)*1000);
+  }
+  sched();
+}
+function stopMusic(){
+  musicPlaying=false;clearTimeout(musicLoop);
+  if(audioCtx){audioCtx.close();audioCtx=null;}
+  document.getElementById('musicBtn').textContent='🎵';
+}
+function toggleMusic(){ musicPlaying?stopMusic():startMusic(); }
+
+/* ─── Canvas backgrounds ─── */
+function drawHeart(ctx,x,y,s){
+  ctx.save();ctx.translate(x,y);
+  ctx.beginPath();
+  ctx.moveTo(s/2,s/4);
+  ctx.quadraticCurveTo(s/2,0,s*3/4,0);
+  ctx.quadraticCurveTo(s,0,s,s/4);
+  ctx.quadraticCurveTo(s,s/2,s/2,s*3/4);
+  ctx.quadraticCurveTo(0,s/2,0,s/4);
+  ctx.quadraticCurveTo(0,0,s/4,0);
+  ctx.quadraticCurveTo(s/2,0,s/2,s/4);
+  ctx.fill();ctx.restore();
+}
+function drawHeartsCanvas(canvas){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#ffeef4';ctx.fillRect(0,0,canvas.width,canvas.height);
+  const sizes=[10,14,18,22,26,12,16,20];
+  const pinks=['#ff6b9d','#ff9eb5','#ff7aaa','#ff5488','#ffb3cc'];
+  for(let x=0;x<canvas.width+40;x+=36){
+    for(let y=0;y<canvas.height+40;y+=36){
+      const s=sizes[Math.floor(Math.random()*sizes.length)];
+      const ox=x+(Math.random()-.5)*18,oy=y+(Math.random()-.5)*18;
+      ctx.globalAlpha=.45+Math.random()*.45;
+      ctx.fillStyle=pinks[Math.floor(Math.random()*pinks.length)];
+      drawHeart(ctx,ox-s/2,oy-s/2,s);
+    }
+  }
+  ctx.globalAlpha=1;
+}
+function drawStarsCanvas(canvas){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const g=ctx.createRadialGradient(canvas.width*.3,canvas.height*.3,0,canvas.width*.5,canvas.height*.5,canvas.width*.8);
+  g.addColorStop(0,'#0d0d2a');g.addColorStop(1,'#000005');
+  ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let i=0;i<280;i++){
+    const x=Math.random()*canvas.width,y=Math.random()*canvas.height;
+    const r=Math.random()*2.2+.3,b=.3+Math.random()*.7;
+    ctx.globalAlpha=b;
+    ctx.fillStyle=`hsl(${200+Math.random()*60},${Math.random()>.8?30:0}%,95%)`;
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+    if(r>1.6){
+      ctx.globalAlpha=b*.4;ctx.strokeStyle='white';ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(x-r*4,y);ctx.lineTo(x+r*4,y);
+      ctx.moveTo(x,y-r*4);ctx.lineTo(x,y+r*4);ctx.stroke();
+    }
+  }
+  ctx.globalAlpha=1;
+}
+
+/* ─── Gift open / close ─── */
+const gifts=[
+  {type:'bouquet'},
+  {type:'normal',emoji:'⭐',
+   title:'Аз жаргалын одны хүслэл ⭐',
+   text:'Алтантуяа, тэнгэрийн хамгийн гэрэлтэй одыг танд зориулав. Өнөөдөр нэг хүслэлээ дотроо хийгтүн — биелэх болтугай! Таны зам гэрэлтэй, ирээдүй дэлгэр байх болтугай. ✨🌟💫',
+   bgImg:'hearts.jpg',bgFn:'hearts',lightCard:false},
+  {type:'normal',emoji:'💝',
+   title:'Мөнхийн буян ерөөл 💝',
+   text:'Алтантуяа, урт удаан нас, эрүүл энх бие, дулаан гэр, аз жаргалтай амьдрал. Таны хайр халамж, сайхан зан маш олон хүнд жишээ болж байдаг. Үргэлж аз жаргалтай, баяр баясгалантай байж! 💖💗💕',
+   bgImg:'stars.jpg',bgFn:'stars',lightCard:true}
+];
+
+function openGift(i){
+  const box=document.getElementById('gb'+i);
+  box.classList.add('pop');setTimeout(()=>box.classList.remove('pop'),600);
+  confetti(24);
+
+  const g=gifts[i];
+  const canvas=document.getElementById('revealCanvas');
+  const bgImg=document.getElementById('revealBgImg');
+  const g0=document.getElementById('gift0content');
+  const g12=document.getElementById('gift12content');
+  const rcard=document.getElementById('rcard');
+
+  // Reset card style
+  rcard.style.background='rgba(255,255,255,.96)';
+  document.getElementById('rTitle').style.color='#e63f7a';
+  document.getElementById('rText').style.color='#888';
+
+  if(g.type==='bouquet'){
+    bgImg.style.display='none';
+    canvas.style.display='none';
+    document.getElementById('reveal').style.background='linear-gradient(145deg,#fff0f5,#ffe0ee)';
+    g0.style.display='block'; g12.style.display='none';
+  } else {
+    document.getElementById('reveal').style.background='';
+    g0.style.display='none'; g12.style.display='block';
+    document.getElementById('rEmoji').textContent=g.emoji;
+    document.getElementById('rTitle').textContent=g.title;
+    document.getElementById('rText').textContent=g.text;
+
+    if(g.lightCard){
+      rcard.style.background='rgba(15,15,40,.82)';
+      document.getElementById('rTitle').style.color='#ffb3cc';
+      document.getElementById('rText').style.color='#ccc';
+    }
+
+    // Try real photo first, fall back to canvas
+    bgImg.style.display='none';
+    canvas.style.display='block';
+    const testImg=new Image();
+    testImg.onload=()=>{
+      bgImg.src=g.bgImg;bgImg.style.display='block';
+      canvas.style.display='none';
+    };
+    testImg.onerror=()=>{
+      canvas.style.display='block';bgImg.style.display='none';
+      if(g.bgFn==='hearts') drawHeartsCanvas(canvas);
+      else drawStarsCanvas(canvas);
+    };
+    testImg.src=g.bgImg;
+  }
+
+  document.getElementById('reveal').classList.add('show');
+}
+function closeGift(){ document.getElementById('reveal').classList.remove('show'); }
+
+/* ─── QR code ─── */
+function makeQR(){
+  new QRCode(document.getElementById('qrcode'),{
+    text:'https://www.youtube.com/watch?v=1hbndwvpVa4',
+    width:175,height:175,
+    colorDark:'#e63f7a',colorLight:'#fff5f8',
+    correctLevel:QRCode.CorrectLevel.H
+  });
+}
+
+/* ─── Confetti ─── */
+function confetti(n){
+  const cols=['#ff6b9d','#ffb3cc','#ff3366','#ffd6e8','#e63f7a','#fffbe8','#ffcc44','#b2e0f0'];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');el.className='cf';
+    const sz=6+Math.random()*9;
+    el.style.cssText=`left:${Math.random()*100}%;top:${-20+Math.random()*30}px;
+      width:${sz}px;height:${sz}px;
+      background:${cols[Math.floor(Math.random()*cols.length)]};
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-duration:${1.2+Math.random()*2.2}s;
+      animation-delay:${Math.random()*.5}s;`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),4000);
+  }
+}
+
+/* ─── Floating hearts ─── */
+(function(){
+  const c=document.getElementById('hearts');
+  const h=['❤️','💕','💖','💗','💓','💝','🌸','✨','🌷','💫'];
+  for(let i=0;i<22;i++){
+    const el=document.createElement('div');el.className='fh';
+    el.textContent=h[Math.floor(Math.random()*h.length)];
+    const dur=9+Math.random()*14;
+    el.style.cssText=`left:${Math.random()*100}%;font-size:${10+Math.random()*18}px;
+      animation-duration:${dur}s;animation-delay:${-Math.random()*dur}s;`;
+    c.appendChild(el);
+  }
+})();
+</script>
+</body>
+</html>
